@@ -150,8 +150,32 @@
           <option value="5">5 (Strongly Agree)</option>
         </select>
       </div>
-      <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+      <button class="btn btn-primary btn-lg btn-block submit" type="submit" data-toggle="modal" data-target="#match">Submit</button>
     </form>
+
+    <!-- Modal -->
+    <div class="modal fade" id="match" tabindex="-1" role="dialog" aria-labelledby=matchModal aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="matchModal">Your Match</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h3 id="match-name"></h3>
+            <img id="match-photo"/>
+          </div>
+          <div class="modal-footer">
+              <a href="/home">Return to home</a></p>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
     <hr class="my-4">
     <footer class="footer">
       <div class="container">
@@ -165,3 +189,61 @@
 </body>
 
 </html>
+
+<script type="text/javascript">
+
+  $(".submit").on("click", function (event) {
+    event.preventDefault();
+
+    function validateForm() {
+      var isValid = true;
+      $(".form-control").each(function () {
+        if ($(this).val() === "") {
+          isValid = false;
+        }
+      });
+
+      $(".custom-select").each(function () {
+
+        if ($(this).val() === "") {
+          isValid = false;
+        }
+      });
+      return isValid;
+    }
+
+    if (validateForm()) {
+      var newFriend = {
+        name: $("#name").val().trim(),
+        photo: $("#photo").val().trim(),
+        scores: [
+          $("#q1").val(),
+          $("#q2").val(),
+          $("#q3").val(),
+          $("#q4").val(),
+          $("#q5").val(),
+          $("#q6").val(),
+          $("#q7").val(),
+          $("#q8").val(),
+          $("#q9").val(),
+          $("#q10").val()
+        ]
+      };
+
+      $.post({
+        url: "/api/friends", data: JSON.stringify(newFriend), contentType: "application/json"
+      }, function (data) {
+        if (data) {
+          $("#match-name").text(data.name);
+          $("#match-photo").attr("src", data.photo);
+        }
+      });
+    } else {
+      $("#match-name").text("Please complete the survey");
+    }
+
+  });
+
+
+
+</script>
