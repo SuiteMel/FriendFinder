@@ -1,5 +1,7 @@
 # FriendFinder
 
+## [Vist Friend Finder Here](https://tranquil-wave-43023.herokuapp.com/)
+
 ## Technologies Used
 * Bootstrap
 * JQuery
@@ -12,3 +14,5 @@ Friend Finder is an application where you take a survey, based on the results of
 ### Problems to Solve
 * What happens if you tie with two people?
 * What if there is no one in the system?
+
+#### Please note that some browsers may not allow the scripts in this application to run, please check your browser permissions to successfully run this app. 
